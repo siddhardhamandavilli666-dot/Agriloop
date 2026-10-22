@@ -36,8 +36,10 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http)
             throws Exception {
         return http
-                .csrf(csrf -> csrf.disable())
+                .csrf(org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
+                .formLogin(org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer::disable)
+                .httpBasic(org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
