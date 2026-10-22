@@ -1,0 +1,12 @@
+node_modules/
+frontend/dist/
+backend/target/
+
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+**/dist/
+.git-backup/
