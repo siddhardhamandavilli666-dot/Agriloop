@@ -1,7 +1,8 @@
 package com.agriloop.config;
 
 import com.agriloop.auth.JwtAuthFilter;
-
+import com.agriloop.auth.JwtService;
+import com.agriloop.repo.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,8 +19,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private final JwtService jwtService;
+    private final UserRepository userRepository;
+
+    public SecurityConfig(JwtService jwtService, UserRepository userRepository) {
+        this.jwtService = jwtService;
+        this.userRepository = userRepository;
+    }
+
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http, JwtAuthFilter jwt)
+    JwtAuthFilter jwtAuthFilter() {
+        return new JwtAuthFilter(jwtService, userRepository);
+    }
+
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http)
             throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
@@ -33,7 +47,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/machinery/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwt, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

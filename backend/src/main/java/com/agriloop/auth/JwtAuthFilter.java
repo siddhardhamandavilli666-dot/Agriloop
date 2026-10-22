@@ -12,14 +12,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.lang.NonNull;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
 
-@Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwt;
@@ -33,17 +31,18 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(@NonNull HttpServletRequest request) {
         String path = request.getServletPath();
-
-        return path.equals("/api/auth/login")
-                || path.equals("/api/auth/register");
+        if (path == null || path.isEmpty()) {
+            path = request.getRequestURI();
+        }
+        return path != null && (path.startsWith("/api/auth/login")
+                || path.startsWith("/api/auth/register"));
     }
 
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest req,
             @NonNull HttpServletResponse res,
-            @NonNull FilterChain chain
-    ) throws ServletException, IOException {
+            @NonNull FilterChain chain) throws ServletException, IOException {
 
         String header = req.getHeader("Authorization");
 
@@ -62,16 +61,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
                     if (user != null) {
 
-                        var authentication =
-                                new UsernamePasswordAuthenticationToken(
-                                        user.getEmail(),
-                                        null,
-                                        List.of(
-                                                new SimpleGrantedAuthority(
-                                                        "ROLE_" + user.getRole()
-                                                )
-                                        )
-                                );
+                        var authentication = new UsernamePasswordAuthenticationToken(
+                                user.getEmail(),
+                                null,
+                                List.of(
+                                        new SimpleGrantedAuthority(
+                                                "ROLE_" + user.getRole())));
 
                         SecurityContextHolder
                                 .getContext()
