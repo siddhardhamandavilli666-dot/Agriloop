@@ -1,7 +1,7 @@
 const API = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 export function warmUp() {
-  fetch(`${API}/actuator/health`, { method: "GET", cache: "no-store" }).catch(
+  fetch(`${API}/api/machinery`, { method: "GET", cache: "no-store" }).catch(
     () => fetch(`${API}/`, { method: "GET", cache: "no-store" }).catch(() => {}),
   );
 }
