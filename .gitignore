@@ -1,12 +1,34 @@
+## Dependencies
 node_modules/
+
+## Build outputs
 frontend/dist/
 backend/target/
+**/dist/
 
+## Environment files
 .env
 .env.*
 !.env.example
 **/.env
 **/.env.*
 !**/.env.example
-**/dist/
+
+## Vercel
+.vercel
+frontend/.vercel/
+
+## IDE & OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+*.swp
+
+## Logs
+*.log
+npm-debug.log*
+
+## Git backup
 .git-backup/
