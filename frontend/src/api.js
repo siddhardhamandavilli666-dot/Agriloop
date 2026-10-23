@@ -1,7 +1,5 @@
 const API = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
-// Silently ping the backend on app load so the Render dyno is warm by the
-// time the user submits the login form (eliminates the cold-start delay).
 export function warmUp() {
   fetch(`${API}/actuator/health`, { method: "GET", cache: "no-store" }).catch(
     () => fetch(`${API}/`, { method: "GET", cache: "no-store" }).catch(() => {}),
@@ -42,7 +40,6 @@ async function request(path, options = {}) {
       const body = await response.json();
       message = body.message || body.error || message;
     } catch {
-      // Use the default message if the response is not JSON.
     }
 
     if (path === "/api/auth/login" && response.status === 401) {
