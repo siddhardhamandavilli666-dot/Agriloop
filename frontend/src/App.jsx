@@ -186,7 +186,7 @@ export default function App() {
       1,
       Math.ceil(
         (new Date(bookingForm.endDate) - new Date(bookingForm.startDate)) /
-          86400000,
+        86400000,
       ) + 1,
     );
     try {
@@ -720,7 +720,6 @@ export default function App() {
             <Sprout size={16} /> AgriLoop
           </span>
           <span>Better access. Stronger farms. Shared growth.</span>
-          <span>Starter MVP</span>
         </footer>
       </main>
 
@@ -1027,14 +1026,14 @@ export default function App() {
                     <strong>
                       {money(
                         Number(selected.rate || 0) *
-                          Math.max(
-                            1,
-                            Math.ceil(
-                              (new Date(bookingForm.endDate) -
-                                new Date(bookingForm.startDate)) /
-                                86400000,
-                            ) + 1,
-                          ),
+                        Math.max(
+                          1,
+                          Math.ceil(
+                            (new Date(bookingForm.endDate) -
+                              new Date(bookingForm.startDate)) /
+                            86400000,
+                          ) + 1,
+                        ),
                       )}
                     </strong>
                     <small>

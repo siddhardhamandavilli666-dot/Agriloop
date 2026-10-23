@@ -43,9 +43,9 @@ export default function AuthScreen({ onAuthenticated }) {
       const user = isRegister
         ? await register(form)
         : await login({
-            email: form.email.trim(),
-            password: form.password,
-          });
+          email: form.email.trim(),
+          password: form.password,
+        });
 
       onAuthenticated(user);
     } catch (requestError) {
@@ -259,11 +259,6 @@ export default function AuthScreen({ onAuthenticated }) {
             >
               {isRegister ? "Sign in" : "Create an account"}
             </button>
-          </p>
-
-          <p className="auth-admin-note">
-            Admin accounts are created by an administrator, not through public
-            registration.
           </p>
         </section>
       </div>
